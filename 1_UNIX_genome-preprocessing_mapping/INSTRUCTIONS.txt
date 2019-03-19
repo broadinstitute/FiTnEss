@@ -1,0 +1,49 @@
+Steps 1 and 2 need to be done once per genome of interest.
+Steps 3 and 4 are dependent on your data.
+
+
+1. TA site pre-processing
+Software required: Python
+
+a. Put your_genome.fasta, your_genome_reverse_complement.fasta in input folder
+b. modify execute_TAsite_preprocessing.sh to your genome
+c. required scripts in scripts folder: 50bp_TA_sequence_extractor.py, homology_finder.py, nonpermissive_TAFinder.py, TAFinder.py
+d. output files: TA_sites.txt, nonpermissive_TA_sites.txt, homologous_TA_sites.txt
+
+To run command:
+sh execute_TAsite_preprocessing.sh
+
+
+2. Generating a genelist
+Software required: Excel, text editor, R, or similar
+
+a. obtain .gff file or similar for your genome
+b. create output genelist file: your_gene_list.txt in tab-delimited text format, where each row is a gene. Column 1 is the chromosome #, column 2 is Gene_ID, columns 3-5 are blank, column 6 is the chromosomal gene start, column 7 is the chromosomal gene stop
+Example top 2 rows for PA14:
+1	PA14_00010				483	2027
+1	PA14_00020				2056	3159
+
+
+3. Mapping sequencing files to genome
+Software required: Bowtie
+
+a. If running locally, put your_sample.fastq and your_genome.fasta in input folder
+b. build genome using command:
+bowtie-build your_genome.fasta your_genome
+c. map using Bowtie with the following command:
+bowtie -v 0 -q -m 1 -S PA14 your_sample.fastq your_sample.sam
+d. output file is a .sam file
+
+
+4. Tallying reads per TA site from .sam file
+Software required: Python
+
+a. scripts required in scripts folder: tally.py (modified to your genome)
+b. files required in output folder: TA_sites.txt (generated in step 1 for your genome)
+c. files required in input folder: your_gene_list.txt (generated in step 2 for your genome); your_sample.sam file (generated in step 3)
+
+Example command:
+python tally.py TA_sites.txt your_sample.sam your_gene_list.txt > your_sample_tally.txt
+
+3&4. To run these sequentially:
+sh execute_mapping&tallying.sh
