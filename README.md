@@ -1,2 +1,2 @@
 # FiTnEss
-A statistical model to analyze transposon Tn-seq data
+A statistical model to analyze Tn-seq data
