@@ -5,7 +5,7 @@ _FiTnEss_ is a package using Transposon insertion sequencing data to identify es
 
 Preprint manuscript on bioRxiv: [Defining the core essential genome of Pseudomonas aeruginosa](https://www.biorxiv.org/content/early/2019/01/12/396689)
 
-Published manuscript:
+Published manuscript: pending
 
 #### Quick start
 
