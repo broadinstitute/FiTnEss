@@ -37,7 +37,7 @@ install.packages(c("devtools","dplyr","fBasics","goftest","openxlsx","scales","s
 #### Step 2. install FiTnEss package from github
 
 ```
-devtools::install_github("ruy204/FiTnEss")
+devtools::install_github("broadinstitute/FiTnEss")
 ```
 
 #### Step 3. load FiTnEss and dependent packages
