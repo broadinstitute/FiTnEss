@@ -15,7 +15,8 @@ sh execute_TAsite_preprocessing.sh
 Step 2. Generating a genelist. This step requires a .gff3 file or similar that contains a gene identifier and the respective gene start/stop coordinates to your_genome.fasta file. Software required: Excel, text editor, R, or similar.
 
 a. Obtain .gff file or similar for your_genome.fasta
-b. Create genelist file: your_genelist.txt in tab-delimited text format, where each row is a gene. Column 1 is the chromosome #, column 2 is Gene_ID, columns 3-5 are blank, column 6 is the chromosomal gene start, column 7 is the chromosomal gene stop
+b. Save file to genome_info folder. This will be used by the "R FiTnEss" package later.
+c. Create genelist file: your_genelist.txt in tab-delimited text format, where each row is a gene. Column 1 is the chromosome #, column 2 is Gene_ID, columns 3-5 are blank, column 6 is the chromosomal gene start, column 7 is the chromosomal gene stop
 
 Example top 2 rows for P. aeruginosa strain PA14:
 1	PA14_00010				483	2027
