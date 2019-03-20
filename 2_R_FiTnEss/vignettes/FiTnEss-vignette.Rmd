@@ -1,0 +1,137 @@
+---
+title: "_FiTnEss_ -- Identifying essential genes from TnSeq data"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_document:
+    highlight: pygments
+    toc: true
+    toc_depth: 5
+    fig_width: 5
+    
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Abstract
+
+Transposon insertion sequencing (Tn-Seq) is a high-throughput technique to generate and culture a large random collection of genetically perturbed bacteria, followed by sequencing to measure the frequency of each perturbation in the culture. Tn-Seq is used for the identification of essential genes by utilizing the fact that mutants carrying insertions in such genes are expected to be greatly depleted in the growth culture. 
+
+Here we present _FiTnEss_ (Finding Tn-Seq Essential Genes) - a novel statistical method to identify gene essentiality using Tn-Seq data. The method contains only two global parameters that are estimated from the data. It is robust and has greater power to detect essential genes than most current existing methods.
+
+## Introduction
+
+#### General Introduction
+
+In this package, we present a major function called `FiTnEss_Run` conducting one-step analysis from raw tally files to final essential gene calls. This major function consists of three analysis steps including 
+
+- raw tally file processing
+- model fitting
+- essential gene identifications
+
+#### Quick Start
+
+```{r, dev='CairoPDF',eval=FALSE, warning=FALSE}
+#Main function
+FiTnEss_Run(strain,
+            tally_file,
+            non_permissive_file,
+            homologous_file,
+            gene_file,
+            results_save,
+            repeat_time)
+
+#Example
+FiTnEss_Run("UCBPP",
+            "/home/TnSeq/data/test_data/PA14_M9_rep1_tally.txt",
+            "/home/TnSeq/data/test_data/nonpermissive_TA_sites.txt",
+            "/home/TnSeq/data/test_data/homologous_TA_sites.txt",
+            "/home/TnSeq/data/test_data/PA14_gene_file.txt",
+            "/home/TnSeq/test_result/test_results.xlsx",
+            repeat_time = 3)
+```
+
+## Pipeline Workflow
+
+
+#### Step 1. install dependent packages
+
+```{r, dev='CairoPDF',eval=FALSE, warning=FALSE}
+install.packages(c("devtools","dplyr","fBasics","goftest","openxlsx","scales","stats","tidyr"))
+```
+
+#### Step 2. install FiTnEss package from github
+
+```{r, dev='CairoPDF',eval=FALSE, warning=FALSE}
+devtools::install_github("ruy204/FiTnEss")
+```
+
+#### Step 3. load FiTnEss and dependent packages
+
+```{r, dev='CairoPDF',eval=FALSE, warning=FALSE}
+Packages <- c("devtools","dplyr","fBasics","goftest","openxlsx","scales","stats","tidyr")
+lapply(Packages, library, character.only = TRUE)
+
+require(FiTnEss)
+```
+
+#### Step 4. run FiTnEss
+
+```{r, dev='CairoPDF',eval=FALSE, warning=FALSE}
+FiTnEss_Run("UCBPP",
+            "/home/TnSeq/data/test_data/PA14_M9_rep1_tally.txt",
+            "/home/TnSeq/data/test_data/nonpermissive_TA_sites.txt",
+            "/home/TnSeq/data/test_data/homologous_TA_sites.txt",
+            "/home/TnSeq/data/test_data/PA14_gene_file.txt",
+            "/home/TnSeq/test_result/test_results.xlsx",
+            repeat_time = 3)
+```
+
+## Data format
+
+
+#### Raw tally file format
+
+Raw tally file is in `.txt` format, and usually contains 6 columns: 
+
+`chromosome`, `TA start position`, `TA stop position`, `gene name`, `reads on "+" strand`, `reads on "-" strand`
+
+For example: 
+
+```{r, dev='CairoPDF', warning=FALSE,echo=FALSE}
+rawtally<-read.delim("/home/unix/ruiyang/TnSeq/data/test_data/PA14_M9_rep1_tally.txt")
+```
+
+```{r, dev='CairoPDF', warning=FALSE}
+head(rawtally)
+```
+
+#### Output results
+
+```{r, dev='CairoPDF', warning=FALSE,echo=FALSE}
+library(openxlsx)
+results<-read.xlsx("/home/unix/ruiyang/TnSeq/data/test_data/test_result/test_results.xlsx")
+```
+
+```{r, dev='CairoPDF', warning=FALSE}
+head(results)
+```
+
+The results are automatically saved into `.xlsx` format with each tab contains results from one replicate. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
