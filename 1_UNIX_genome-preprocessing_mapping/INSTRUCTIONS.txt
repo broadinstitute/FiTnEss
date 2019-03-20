@@ -1,46 +1,44 @@
-Steps 1 and 2 need to be done once per genome of interest.
-Steps 3 and 4 are dependent on your data.
+Steps 1 and 2 need to only be performed once per genome of interest. The output files will be used for steps 3 and 4.
+Steps 3 and 4 are dependent on your data. The input files required are .fastq sequencing files or .sam files that are premapped to your genome of interest. The output file required for FiTnEss is a tally file that sums the reads at each TA insertion site.
 
 
-1. TA site pre-processing
-Software required: Python
+Step 1. TA site pre-processing. This step uses your .fasta genome file of interest and identifies: TA sites, non-permissive TA sites (sites that do not allow transposon insertions), and homologous TA sites (sites that occur >1 in your genome that reads cannot be accurately mapped to). Software required: Python
 
-a. Put your_genome.fasta, your_genome_reverse_complement.fasta in input folder
-b. modify execute_TAsite_preprocessing.sh to your genome
-c. required scripts in scripts folder: 50bp_TA_sequence_extractor.py, homology_finder.py, nonpermissive_TAFinder.py, TAFinder.py
-d. output files: TA_sites.txt, nonpermissive_TA_sites.txt, homologous_TA_sites.txt
-
-To run command:
+a. Input folder requires: your_genome.fasta, your_genome_reverse_complement.fasta (this can be generated with any free online reverse complement software such as http://reverse-complement.com).
+b. Modify execute_TAsite_preprocessing.sh to reflect your_genome name.
+c. These scripts neeed not be modified, but are required in the scripts folder: 50bp_TA_sequence_extractor.py, homology_finder.py, nonpermissive_TAFinder.py, TAFinder.py
+d. Output files: TA_sites.txt, nonpermissive_TA_sites.txt, homologous_TA_sites.txt
+e. Run command in terminal by navigating to this folder. Type:
 sh execute_TAsite_preprocessing.sh
 
 
-2. Generating a genelist
-Software required: Excel, text editor, R, or similar
+Step 2. Generating a genelist. This step requires a .gff3 file or similar that contains a gene identifier and the respective gene start/stop coordinates to your_genome.fasta file. Software required: Excel, text editor, R, or similar.
 
-a. obtain .gff file or similar for your genome
-b. create output genelist file: your_gene_list.txt in tab-delimited text format, where each row is a gene. Column 1 is the chromosome #, column 2 is Gene_ID, columns 3-5 are blank, column 6 is the chromosomal gene start, column 7 is the chromosomal gene stop
-Example top 2 rows for PA14:
+a. Obtain .gff file or similar for your_genome.fasta
+b. Create genelist file: your_genelist.txt in tab-delimited text format, where each row is a gene. Column 1 is the chromosome #, column 2 is Gene_ID, columns 3-5 are blank, column 6 is the chromosomal gene start, column 7 is the chromosomal gene stop
+
+Example top 2 rows for P. aeruginosa strain PA14:
 1	PA14_00010				483	2027
 1	PA14_00020				2056	3159
 
 
-3. Mapping sequencing files to genome
-Software required: Bowtie
+Step 3. Mapping .fastq sequencing files to genome. This step converts your .fastq files into .sam files using your_genome.fasta. Software required: Bowtie. If you have access to computer servers, this step will be much faster than running on a local computer.
 
-a. If running locally, put your_sample.fastq and your_genome.fasta in input folder
-b. build genome using command:
+a. If running locally, place your_sample.fastq and your_genome.fasta in input folder
+b. After installing Bowtie, navigate to this folder and build genome by typing:
 bowtie-build your_genome.fasta your_genome
-c. map using Bowtie with the following command:
-bowtie -v 0 -q -m 1 -S PA14 your_sample.fastq your_sample.sam
-d. output file is a .sam file
+c. Step 3b needs to be performed only once per your_genome.fasta file.
+d. Map your_sample.fastq file to your_genome using Bowtie by typing:
+bowtie -v 0 -q -m 1 -S your_genome your_sample.fastq your_sample.sam
+d. -v 0 indicates that exact mapping will be performed, -m 1 indicates that reads will only be mapped to a site if that site is the only possibility
+e. Output file is your_sample.sam file
 
-
-4. Tallying reads per TA site from .sam file
+Step 4. Tallying reads per TA site from .sam file
 Software required: Python
 
-a. scripts required in scripts folder: tally.py (modified to your genome)
-b. files required in output folder: TA_sites.txt (generated in step 1 for your genome)
-c. files required in input folder: your_gene_list.txt (generated in step 2 for your genome); your_sample.sam file (generated in step 3)
+a. Scripts required in scripts folder: tally.py (modified to your genome as indicated in the file)
+b. Files required in output folder: TA_sites.txt (generated in step 1 for your genome)
+c. Files required in input folder: your_gene_list.txt (generated in step 2 for your genome); your_sample.sam file (generated in step 3)
 
 Example command:
 python tally.py TA_sites.txt your_sample.sam your_gene_list.txt > your_sample_tally.txt
