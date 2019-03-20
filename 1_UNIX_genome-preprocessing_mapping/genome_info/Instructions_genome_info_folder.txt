@@ -1,0 +1,6 @@
+This folder requires:
+
+
+your_genome.fasta
+your_genome_reverse_complement.fasta
+your_genelist.txt
