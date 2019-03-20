@@ -1,0 +1,18 @@
+{
+    "contents" : "library(dplyr)\r\nrequire(graphics)\r\nrequire(pastecs)\r\nrequire(ggplot2)\r\n\r\n#4. denotate core TAs\r\n\r\ndenote_coreTA <- function(tally, bp = 50) {\r\n  tally$coreTA <- ((tally$TA.gene.pos > bp) &\r\n                     (tally$TA.gene.pos < (tally$gene.size.CIA-bp + 1)))\r\n  return(tally)\r\n}\r\n",
+    "created" : 1540317567333.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4005629591",
+    "id" : "D2593635",
+    "lastKnownWriteTime" : 1540325946,
+    "path" : "~/TnSeq/FiTnEss/R/denote_coreTA.R",
+    "project_path" : "R/denote_coreTA.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

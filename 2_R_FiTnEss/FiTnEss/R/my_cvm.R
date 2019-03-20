@@ -2,11 +2,6 @@
 #cvm_function
 #Oct23_2018_TS_cvm_fun
 #Jan26_TS_new_cvm_fun3
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(goftest)
-library(fBasics)
 
 #1. cvm function redefine (from cvm.test)
 

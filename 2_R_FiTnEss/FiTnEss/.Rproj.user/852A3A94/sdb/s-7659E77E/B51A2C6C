@@ -1,0 +1,18 @@
+{
+    "contents" : "#tally_function\r\n#Oct23_2018_function_modified_tally\r\n#Oct16_TS_function_modified_tally\r\n#Sep21_TS_function_modified_tally\r\nlibrary(dplyr)\r\nrequire(graphics)\r\nrequire(pastecs)\r\nrequire(ggplot2)\r\n\r\n#1. read in raw tally files\r\n\r\nimport.txt <- function(filename, CIA = T) {\r\n  df <- read.delim(filename, header = F) #100654\r\n  if (CIA) {\r\n    df <- df[-grep('^IG',df$V4),]\r\n  } else {\r\n    df <- df\r\n  }\r\n  colnames(df) <- c('Chr','TA_start','TA_end','Locus.CIA','plus_n','minus_n')\r\n  df <- mutate(df, n = plus_n + minus_n)\r\n  df$strain <- strsplit(filename,'_')[[1]][2]\r\n  ## ---IMPORTANT! pay attention to the sequence of file names\r\n  df$Media <- strsplit(filename,'_')[[1]][1]\r\n  #df$Media <- substr(med[i], 1, nchar(med[i])-1)\r\n  rownames(df) <- NULL\r\n  df$TAindex <- rownames(df)\r\n  return(df)\r\n}\r\n\r\n#2. denotate TAs that are homologous\r\n\r\nfind.homo2<-function(tally,homofile){\r\n  homofile2<-homofile %>% group_by(V2) %>%\r\n    summarise(side=n()) %>% dplyr::select(V2,side)\r\n  colnames(homofile2)<-c(\"TA_start\",\"side\")\r\n  tally$homo<-FALSE\r\n  tally$homo[which(tally$TA_start %in% homofile2$TA_start)]<-TRUE\r\n  tally<-tally %>% left_join(homofile2,by=\"TA_start\")\r\n  tally$side[which(is.na(tally$side))]<-0\r\n  return(tally)\r\n}\r\n\r\n#3. calculate number of TA sites\r\n\r\ncalc.TApos <- function(tally, genelist) {\r\n  x <- base::merge(tally, genelist, by = c('Locus.CIA',\"strain\"), all.x = TRUE)\r\n  x <- dplyr::filter(x, type == 'CDS') #5858 genes\r\n  x <- dplyr::group_by(x, Locus.CIA) %>%\r\n    mutate(TA.gene.pos = TA_start - gene_start + 1) %>%\r\n    mutate(gene.size.CIA = gene_stop - gene_start + 1)\r\n  x <- as.data.frame(x)\r\n  x$TA.gene.pos[x$strand == '-'] <- x$gene.size.CIA[x$strand == '-']-x$TA.gene.pos[x$strand == '-']+1\r\n  x <- mutate(x, TA.gene.percent = TA.gene.pos/gene.size.CIA)\r\n  x <- x[!duplicated(x$TA_start),]\r\n  x$TAindex <- as.numeric(x$TAindex)\r\n  return(x)\r\n}\r\n\r\n#4. denotate core TAs\r\n\r\ndenote.coreTA <- function(tally, bp = 50) {\r\n  tally$coreTA <- ((tally$TA.gene.pos > bp) &\r\n                     (tally$TA.gene.pos < (tally$gene.size.CIA-bp + 1)))\r\n  return(tally)\r\n}\r\n",
+    "created" : 1540316918383.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3853743910",
+    "id" : "B51A2C6C",
+    "lastKnownWriteTime" : 1540316930,
+    "path" : "~/TnSeq/FiTnEss/R/tally_function.R",
+    "project_path" : "R/tally_function.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

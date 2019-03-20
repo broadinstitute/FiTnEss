@@ -1,7 +1,3 @@
-library(dplyr)
-require(graphics)
-require(pastecs)
-require(ggplot2)
 
 #1. read in raw tally files
 
