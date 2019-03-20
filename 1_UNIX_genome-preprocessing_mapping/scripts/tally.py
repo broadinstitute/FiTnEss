@@ -1,7 +1,7 @@
 ## This script takes each read in the SAM file and tallies them to each TA site in the genome.
 ## This is counting (Tallying) the reads at each TA site.
 ## CHANGE: Line 52 - gene_dict['IG_chrm1end'] = [last gene end position + 1,total genome length,1]
-## input:  python Readcount_SAM.py argv[1] argv[2] argv[3] > output.txt
+## input:  python tally.py argv[1] argv[2] argv[3] > output.txt
 ## argv[1] is TA sites list for genome
 ## arvg[2] is mapped reads SAM format (single end mapping)
 ## argv[3] is gene list (no header)
