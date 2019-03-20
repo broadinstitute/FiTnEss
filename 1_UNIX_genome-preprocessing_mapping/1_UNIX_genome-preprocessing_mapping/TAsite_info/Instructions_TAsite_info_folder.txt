@@ -1,5 +1,0 @@
-This folder will contain the following outputs:
-
-TA_sites.txt
-homologous_TA_sites.txt
-nonpermissive_TA_sites.txt
