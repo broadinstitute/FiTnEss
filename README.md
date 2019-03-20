@@ -56,7 +56,7 @@ FiTnEss_Run("PA14",
             "/your/folder/location/Test_set_P_aeruginosa/TAsite_info/nonpermissive_TA_sites.txt",
             "/your/folder/location/Test_set_P_aeruginosa/TAsite_info/homologous_TA_sites.txt",
             "/your/folder/location/Test_set_P_aeruginosa/genome_info/PA14.gff.txt",
-            "your/folder/location/Test_set_P_aeruginosa/sample_data/test_results.xlsx",
+            "/your/folder/location/Test_set_P_aeruginosa/sample_data/test_results.xlsx",
             repeat_time = 3)
 ```
 
