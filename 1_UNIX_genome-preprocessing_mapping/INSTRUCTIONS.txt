@@ -33,15 +33,17 @@ bowtie -v 0 -q -m 1 -S your_genome your_sample.fastq your_sample.sam
 d. -v 0 indicates that exact mapping will be performed, -m 1 indicates that reads will only be mapped to a site if that site is the only possibility
 e. Output file is your_sample.sam file
 
+
 Step 4. Tallying reads per TA site from .sam file
 Software required: Python
 
 a. Scripts required in scripts folder: tally.py (modified to your genome as indicated in the file)
-b. Files required in output folder: TA_sites.txt (generated in step 1 for your genome)
-c. Files required in input folder: your_gene_list.txt (generated in step 2 for your genome); your_sample.sam file (generated in step 3)
+b. Files required in output folder: TA_sites.txt (generated in Step 1 for your genome)
+c. Files required in input folder: your_genelist.txt (generated in Step 2 for your genome); your_sample.sam file (generated in step 3)
 
 Example command:
-python tally.py TA_sites.txt your_sample.sam your_gene_list.txt > your_sample_tally.txt
+python tally.py TA_sites.txt your_sample.sam your_genelist.txt > your_sample_tally.txt
 
-3&4. To run these sequentially:
-sh execute_mapping&tallying.sh
+
+Steps 3&4. These steps can be run sequentially:
+sh execute_mapping_tallying.sh
