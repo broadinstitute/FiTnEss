@@ -1,5 +1,3 @@
-library(dplyr)
-require(pastecs)
 
 #2. denotate TAs that are homologous
 

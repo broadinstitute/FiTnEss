@@ -17,7 +17,7 @@ calcparafun<-function(strain,usable_tally_list,save_location,rep_time){
   print("Starting Phase II: calculating parameters")
 
   if(st %in% c("PA14","UCBPP","UCBPP-PA14","pa14","ucbpp")){
-    st="UCBPP"
+    st=st
   }else{
     st=st
   }

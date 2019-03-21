@@ -21,32 +21,32 @@ callessfun<-function(file_location,usable_tally_list,parameter_list){
     oridata<-data
     totdata<-oridata %>% dplyr::select(Locus.CIA,n) %>%
       group_by(Locus.CIA) %>% summarise(gtot=sum(n),Nta=n())
-    totdata<-totdata %>% group_by(Nta) %>% mutate(ngene=n()) %>% ungroup()
+    # totdata<-totdata %>% group_by(Nta) %>% mutate(ngene=n()) %>% ungroup()
 
     para=parameter_list
     lp=para[[x]]$lp[which(para[[x]]$cvm==min(para[[x]]$cvm))]
     sigma=para[[x]]$sigma[which(para[[x]]$cvm==min(para[[x]]$cvm))]
 
-    ngene<-totdata %>% ungroup() %>% group_by(Nta) %>% summarise(ngene=n())
+    ngenedf<-totdata %>% ungroup() %>% group_by(Nta) %>% summarise(ngene=n()) %>% ungroup()
 
-    plist<-lapply(seq_len(length(ngene$Nta)),function(x){
+    plist<-lapply(seq_len(length(ngenedf$Nta)),function(y){
       lbd1<-1/rlnorm(10000, meanlog = lp, sdlog = sigma)
-      Zg1<-rnbinom(1000000,ngene$Nta[x],lbd1)
-      Zg2<-rnbinom(1000000,ngene$Nta[x],0.7)
-      subtot<-totdata %>% dplyr::filter(Nta==ngene$Nta[x])
+      Zg1<-rnbinom(1000000,ngenedf$Nta[y],lbd1)
+      Zg2<-rnbinom(1000000,ngenedf$Nta[y],0.7)
+      subtot<-totdata %>% dplyr::filter(Nta==ngenedf$Nta[y])
       subtot2<-subtot %>% rowwise() %>%
         mutate(pv1=length(which(Zg1<=gtot))/length(Zg1),
                pv2=length(which(Zg2>=gtot))/length(Zg2)) #pv2: the larger the better
       subtot3<-subtot2
-      x=subtot3
+      y=subtot3
     })
-    names(plist)<-paste("Nta",ngene$Nta,sep="_")
+    names(plist)<-paste("Nta",ngenedf$Nta,sep="_")
     pdata1<-do.call("rbind",plist)
 
     #adjusted p-value
 
     pdata1<-pdata1 %>% dplyr::select(Locus.CIA:pv1)
-    colnames(pdata1)[5]<-"pvalue"
+    colnames(pdata1)[4]<-"pvalue"
     #FWER
     pdata1$padj<-p.adjust(pdata1$pvalue)
     pdata1$Ess_fwer<-"NE_fwer"

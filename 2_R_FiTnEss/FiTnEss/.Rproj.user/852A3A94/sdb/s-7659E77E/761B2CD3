@@ -1,0 +1,18 @@
+{
+    "contents" : "#fitnessRun_function\r\n#Oct23_2018_FiTnEss_separate\r\n#Oct23_2018_FiTnEss\r\nlibrary(dplyr)\r\nlibrary(tidyr)\r\nlibrary(openxlsx)\r\nsource(\"R/import_txt.R\")\r\nsource(\"R/find_homo2.R\")\r\nsource(\"R/calc_TApos.R\")\r\nsource(\"R/denode_coreTA.R\")\r\nsource(\"R/my_cvm.R\")\r\nsource(\"R/jointfun4.R\")\r\nsource(\"R/tallyprepfun.R\")\r\nsource(\"R/calcparafun.R\")\r\nsource(\"R/callessfun.R\")\r\n\r\n#4. function to calculate parameters using Nta=median(Nta)\r\n\r\nfitnessRUN<-function(strain,file_location,save_location,repeat_time=3){ #pre-defined as using Nta=10, and replicate for 5 times for each replicate\r\n\r\n  ####################### Usable tally file preparation #######################\r\n\r\n  usable_tally_list<-tallyprepfun(strain,file_location)\r\n\r\n  ####################### Calculating parameters #######################\r\n\r\n  parameter_list<-calcparafun(strain,usable_tally_list,save_location,rep_time=repeat_time)\r\n\r\n  ####################### Call Essentials #######################\r\n\r\n  result_list<-callessfun(file_location,usable_tally_list,parameter_list)\r\n\r\n  #save final results\r\n\r\n  write.xlsx(result_list, file = save_location)\r\n  print(\"Final results saved, finished running.\")\r\n\r\n}\r\n\r\n",
+    "created" : 1540316821717.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "18|71|37|0|\n",
+    "hash" : "608197955",
+    "id" : "761B2CD3",
+    "lastKnownWriteTime" : 1540326451,
+    "path" : "~/TnSeq/FiTnEss/R/fitnessRun_function.R",
+    "project_path" : "R/fitnessRun_function.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

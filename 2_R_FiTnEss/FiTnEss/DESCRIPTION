@@ -5,11 +5,11 @@ Version: 0.1
 Date: 2018-10-23
 Authors@R: person("Rui", "Yang", email = "ruiyang@broadinstitute.org", role = c("aut", "cre"))
 Description: With this package, we could process raw tally TnSeq tally files, and identify potential essential genes.
-License: What license is it under?
+License: GPL-3
 LazyData: TRUE
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
-Imports: dplyr, fBasics, goftest, knitr, openxlsx, pastecs, rmarkdown, scales, stats, tidyr
-Suggests: ggplot, graphics
+Depends: dplyr, fBasics, goftest, knitr, openxlsx, pastecs, rmarkdown, scales, stats, tidyr
+
 

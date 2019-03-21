@@ -1,6 +1,4 @@
 #jointfun4
-library(dplyr)
-library(tidyr)
 
 #2. multiple Nta categories
 
