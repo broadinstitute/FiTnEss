@@ -8,6 +8,8 @@
 ## The output file has 6 columns:  1) name of chromosome; 2) start position of TA site in genome; 3) end position of TA site in chromosome;
 ## 4) the locus in which each TA site sits; 5) The reads from insertions at that TA site on the Forward (+) strand; 6) reads from insertions at that TA site on the Reverse (-) strand
 
+#python3 compatible, 7/22/25
+
 import sys
 
 chrITA={}
@@ -34,11 +36,17 @@ for line in open(sys.argv[2]):
        
 # assign gene names
 
-gene_dict = {}; prev_end = 0; IG = 'IG_1'; prev_chrom = 2
+gene_dict = {}
+prev_end = 0
+IG = 'IG_1'
+prev_chrom = 2
 
 for line in open(sys.argv[3]):
     split = line.split('\t')
-    chrom = int(split[0]); gene = split[1]; start = int(split[5]); end = int(split[6])
+    chrom = int(split[0])
+    gene = split[1]
+    start = int(split[5])
+    end = int(split[6])
     gene_dict[gene]=[start, end, chrom]
     IG = 'IG_' + gene
     if chrom != prev_chrom:
@@ -54,17 +62,20 @@ gene_dict['IG_chrm1end'] = [6537457,6537648,1]
 
 # store gene names into TA site dictionary
 
-for k,v in gene_dict.iteritems():
-    start = v[0]; end = v[1]; chrom = v[2]
+for k,v in gene_dict.items():
+    start = v[0]
+    end = v[1]
+    chrom = v[2]
     if chrom == 1:
         for i in range(start,end+1):
-            if i in chrITA: chrITA[i].append(k)
+            if i in chrITA: 
+                chrITA[i].append(k)
             
 #print
             
-CI_sites = chrITA.keys()
+CI_sites = list(chrITA.keys())
 CI_sites.sort()
 
 for i in CI_sites:
-    print "%s\t%d\t%d\t%s\t%d\t%d" % ('Chr I',i,i+1,chrITA[i][2],chrITA[i][0],chrITA[i][1])
+    print("%s\t%d\t%d\t%s\t%d\t%d" % ('Chr I',i,i+1,chrITA[i][2],chrITA[i][0],chrITA[i][1]))
     

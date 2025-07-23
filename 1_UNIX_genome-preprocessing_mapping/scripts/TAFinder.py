@@ -5,6 +5,8 @@
 ## argv[1] is the fasta sequence of the organism downloaded form NCBI
 ## The output file has 2 columns:  1) misc_feature; 2) genome position of the TA site on the Forward (+) strand
 
+#updated to python3, 7/22/25
+
 import sys
 
 fasta=[] #use an array for effecient concatenation of the lines
@@ -22,5 +24,5 @@ genome="".join(fasta).upper()
 
 index = genome.find('TA')
 while (index != -1):
-    print "misc_feature\t%d" %(index + 1)
+    print("misc_feature\t%d" %(index + 1))
     index = genome.find('TA', index+2)
