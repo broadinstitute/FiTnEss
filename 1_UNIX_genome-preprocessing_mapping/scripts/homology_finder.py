@@ -2,7 +2,7 @@
 
 ## This script uses the upstream or downstream extracted sequences and looks for replicate sequences within the file
 ## input example:  python homology_finder.py 50bp_downstream_TA_sequences.txt > downstream_50bp_homologous_TAsites.txt
-## The output file has 2 columns:  1) the replicated surrounding TA sequence; 2) genome position of the TA site on the Forward (+) strand
+## The output file has 2 columns:  1) the replicated surrounding TA sequence; 2) contig name, 3) genome position of the TA site on the Forward (+) strand
 
 #python3 compatible, 7/22/25
 

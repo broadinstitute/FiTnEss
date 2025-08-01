@@ -17,8 +17,9 @@ chrITA={}
 for line in open(sys.argv[1]):
     split= line.split()         #splits string into columns--treates consecutive spaces as 1 single tab
     if split[0]=='misc_feature': #determine if col 1 has a value of 'misc_feature'
+        chrom = split[2]
         TAsite=int(split[1]) #if yes, goes to col 2 and finds the TA position as defined by TAfinder.py
-        chrITA[TAsite]=[0,0] #deposits all TA sites into a table, but with 0 reads
+        chrITA[(chrom, TAsite)]=[0,0,'None'] #deposits all TA sites into a table, but with 0 reads
 
 ##counts reads at each TA site from SAM output
 
@@ -43,7 +44,8 @@ prev_chrom = 2
 
 for line in open(sys.argv[3]):
     split = line.split('\t')
-    chrom = int(split[0])
+    #chrom = int(split[0]) #original code
+    chrom = split[0] #changed to string
     gene = split[1]
     start = int(split[5])
     end = int(split[6])
@@ -66,10 +68,11 @@ for k,v in gene_dict.items():
     start = v[0]
     end = v[1]
     chrom = v[2]
-    if chrom == 1:
-        for i in range(start,end+1):
-            if i in chrITA: 
-                chrITA[i].append(k)
+    #if chrom == 1: #why was this originally only for chromosome 1?
+    for i in range(start,end+1):
+        if i in chrITA: 
+            #chrITA[i].append(k)
+            chrITA[i][2] = k
             
 #print
             
