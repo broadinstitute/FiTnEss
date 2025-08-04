@@ -62,7 +62,7 @@ def create_gene_list_from_gff(gff_file, output_file=None):
                     continue
 
                 # Extract gene ID from attributes
-                gene_id = extract_gene_id(attributes)
+                gene_id = extract_gene_id(attributes, tag=tag_name)
 
                 if gene_id:
                     # Format: chr, gene_id, blank, blank, blank, start, end
