@@ -25,7 +25,7 @@ bowtie-build "${data_path}genome_info/${fna_file}" "${data_path}genome_info/${in
 #mapping to genome, exact match
 bowtie -v 0 -q -m 1 -S "${data_path}genome_info/${index_file}" "${data_path}sample_data/${fastq_file}" "${data_path}sample_data/${base_fna_name}.sam"
 #Allowing 1 mismatch
-#bowtie -v 1 -q -m 1 -S "${data_path}genome_info/${index_file}" "${data_path}sample_data/${fastq_file}" "${data_path}sample_data/${base_fna_name}.sam"
+bowtie -v 1 -q -m 1 -S "${data_path}genome_info/${index_file}" "${data_path}sample_data/${fastq_file}" "${data_path}sample_data/${base_fna_name}_1mm.sam"
 
 #tallying"${script_path}reverse_complement_genome.py"
 base_gff_name=$(basename "${gff_file}" .gff) #base name of GFF file, used to create gene list file name

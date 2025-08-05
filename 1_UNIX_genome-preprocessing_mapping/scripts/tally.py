@@ -26,16 +26,28 @@ for line in open(sys.argv[2]):
     split=line.split('\t')
     if split[0][0] !="@": #ignores headers (analyzes rows don't have an @ symbol)
         contig = split[2]
-        if split[1]=='16':  #if mapping is to the plus strand
-            site=int(split[3])
+        if split[1]=="0":  #plus strand should be 0
+            site=int(split[3])-2 #-2 to get to the TA site position, since the TA site is 2 bases upstream of the start of the read (empirically based on me looking at the sam file)
             key = (contig, site)
             if key in chrITA:
                 chrITA[key][0] += 1
-        if split[1]=="0": #if mapping is on the minus strand
-            site=int(split[3])-2 + len(split[9])
+        if split[1]=="16": #minus strand should be 16
+            site=int(split[3]) + len(split[9]) #the end of the read is at the beginning of the TA site, so we add the length of the read to the start position
             key = (contig, site)
             if key in chrITA:
                 chrITA[key][1] += 1  #if read has been found before, tally 1 more
+
+        #This is the old code. why does it look wrong? Did the output of bowtie change dramatically?
+        #if split[1]=='16':  #if mapping is to the plus strand--plus strand should be 0, but here says 16?
+        #    site=int(split[3])
+        #    key = (contig, site)
+        #    if key in chrITA:
+        #        chrITA[key][0] += 1
+        #if split[1]=="0": #if mapping is on the minus strand--minus strand should be 16 but here says 0?
+        #    site=int(split[3])-2 + len(split[9])
+        #    key = (contig, site)
+        #    if key in chrITA:
+        #        chrITA[key][1] += 1  #if read has been found before, tally 1 more
 
 
 # assign gene names
