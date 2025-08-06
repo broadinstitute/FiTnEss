@@ -44,7 +44,11 @@ self_tallyprepfun<-function(strain, file_location, permissive_file, homologous_f
   nm<-paste(st,"_support",sep="")
 
   nonPermissiveTA<-read.delim(permissive_file, header = FALSE, fill = TRUE)
+  colnames(nonPermissiveTA) = c("Seq", "Chr", "TA_start")
+  nonPermissiveTA = dplyr::mutate(nonPermissiveTA, Chr_TAstart = paste(Chr, TA_start, sep = ":"))
+
   homo<-read.delim(homologous_file, header = FALSE, fill = TRUE)
+
   genelist<-genefile %>% dplyr::filter(V3=="CDS") %>% dplyr::select(V1,V9,V4,V5)
   genelist$V9 <- sapply(genelist$V9, extract_tag, tag = gff_name_tag)
 
@@ -90,7 +94,6 @@ self_tallyprepfun<-function(strain, file_location, permissive_file, homologous_f
     # unique_map_tally2$strain<-strain
 
     #b) Import raw tally files and annotate sites with multialignment:
-######8/5/25 PAUSED HERE###############################################################
     unique_map_tally <- calc_TApos(unique_map_tally2, genelist)
     ## removed many TA sites
     unique_map_tally <- dplyr::filter(unique_map_tally, type == 'CDS')
@@ -98,7 +101,8 @@ self_tallyprepfun<-function(strain, file_location, permissive_file, homologous_f
 
     #c) Find sites affected by non-permissive bias:
 
-    tally.w$non_permissive <- (tally.w$TA_start %in% nonPermissiveTA$V2)
+    # tally.w$non_permissive <- (tally.w$TA_start %in% nonPermissiveTA$V2)
+    tally.w$non_permissive <- (tally.w$Chr_TAstart %in% nonPermissiveTA$Chr_TAstart)
     table(tally.w$non_permissive) #TRUE is number of non-permissive TA sites
 
     #d) Denote TAs for edge trimming

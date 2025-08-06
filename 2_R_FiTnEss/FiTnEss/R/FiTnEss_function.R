@@ -7,7 +7,9 @@
 
 FiTnEss_Run<-function(strain,
                       file_location,
-                      permissive_file,homologous_file,gene_file,
+                      permissive_file,
+                      homologous_file,
+                      gene_file,
                       save_location,
                       gff_name_tag, #tag to define gene name in gff file
                       repeat_time=3){ #pre-defined as using Nta=10, and replicate for 5 times for each replicate
@@ -26,7 +28,7 @@ FiTnEss_Run<-function(strain,
 
   ## 4. save final results
 
-  write.xlsx(result_list, file = save_location)
+  openxlsx::write.xlsx(result_list, file = save_location)
   print("Final results saved, finished running.")
 
 }

@@ -19,8 +19,8 @@ callessfun<-function(file_location,usable_tally_list,parameter_list){
     data=filtered_list[[x]]
     strain<-unique(data$strain)
     oridata<-data
-    totdata<-oridata %>% dplyr::select(Locus.CIA,n) %>%
-      group_by(Locus.CIA) %>% summarise(gtot=sum(n),Nta=n())
+    totdata<-oridata %>% dplyr::select(Chr, Locus.CIA, n) %>%
+      group_by(Chr, Locus.CIA) %>% summarise(gtot=sum(n),Nta=n(), .groups = "drop") %>% ungroup()
     # totdata<-totdata %>% group_by(Nta) %>% mutate(ngene=n()) %>% ungroup()
 
     para=parameter_list
@@ -44,11 +44,10 @@ callessfun<-function(file_location,usable_tally_list,parameter_list){
     pdata1<-do.call("rbind",plist)
 
     #adjusted p-value
-
-    pdata1<-pdata1 %>% dplyr::select(Locus.CIA:pv1)
-    colnames(pdata1)[4]<-"pvalue"
+    pdata1<-pdata1 %>% dplyr::select(Chr:pv1)
+    colnames(pdata1)[5]<-"pvalue"
     #FWER
-    pdata1$padj<-p.adjust(pdata1$pvalue)
+    pdata1$padj<-p.adjust(pdata1$pvalue, "holm") #used default, which should be Holm
     pdata1$Ess_fwer<-"NE_fwer"
     pdata1$Ess_fwer[which(pdata1$padj<0.05)]<-"E_fwer"
     #FDR

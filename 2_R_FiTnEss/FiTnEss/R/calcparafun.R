@@ -5,24 +5,24 @@ calcparafun<-function(strain,usable_tally_list,save_location,rep_time){
 
   b=rep_time
 
-  if (strain %in% c("UCBPP","PA14","pa14","ucbpp")){
-    strain<-"UCBPP"
-    st<-"UCBPP-PA14"
-  }else{
-    st<-strain
-  }
+  # if (strain %in% c("UCBPP","PA14","pa14","ucbpp")){
+  #   strain<-"UCBPP"
+  #   st<-"UCBPP-PA14"
+  # }else{
+  #   st<-strain
+  # }
 
   ####################### Calculating parameters #######################
 
   print("Starting Phase II: calculating parameters")
 
-  if(st %in% c("PA14","UCBPP","UCBPP-PA14","pa14","ucbpp")){
-    st=st
-  }else{
-    st=st
-  }
+  # if(st %in% c("PA14","UCBPP","UCBPP-PA14","pa14","ucbpp")){
+  #   st=st
+  # }else{
+  #   st=st
+  # }
 
-  print(paste("Now running ",st,sep=""))
+  print(paste("Now running ", strain, sep=""))
 
   #1. prepare data
 
@@ -33,11 +33,16 @@ calcparafun<-function(strain,usable_tally_list,save_location,rep_time){
   #2. compare replicates
 
   repgene_list<-lapply(filtered_list,function(x){
-    x=x %>% group_by(Locus.CIA) %>% summarise(Nta=n())
+    x=x %>% group_by(Chr, Locus.CIA) %>% summarise(Nta=n(), .groups = "drop") %>% ungroup()
   })
-  consistent_genes<-Reduce(function(x, y) inner_join(x, y, by = c("Locus.CIA","Nta")), repgene_list) #5708 genes
+
+  #iterative inner join to find genes present in all dataframes in list
+  consistent_genes<-Reduce(function(x, y) inner_join(x, y, by = c("Chr","Locus.CIA","Nta")), repgene_list) #5708 genes
+
   filtered_list<-lapply(filtered_list,function(x){
-    x=x %>% dplyr::filter(Locus.CIA %in% unique(consistent_genes$Locus.CIA))
+    #x=x %>% dplyr::filter(Locus.CIA %in% unique(consistent_genes$Locus.CIA))
+    #Locus should be unique, but to make it more robust with chromosome info
+    x = dplyr::semi_join(x, consistent_genes, by = c("Chr", "Locus.CIA"))
   })
 
   saveRDS(filtered_list,
@@ -50,21 +55,23 @@ calcparafun<-function(strain,usable_tally_list,save_location,rep_time){
   parameter_list<-lapply(filtered_list,function(x){
 
     #prepare each replicate
-
     data=x
     strain<-unique(data$strain)
     oridata<-data
-    totdata<-oridata %>% dplyr::select(Locus.CIA,n) %>% group_by(Locus.CIA) %>% summarise(gtot=sum(n),Nta=n())
+    #Tabulate total number of reads, gtot, and total number of TA sites per gene
+    totdata<-oridata %>% dplyr::select(Chr, Locus.CIA, n) %>% group_by(Chr, Locus.CIA) %>% summarise(gtot=sum(n),Nta=n(), .groups = "drop") %>% ungroup()
+    #Tabulate how many genes have each # of TA sites
     totdata<-totdata %>% group_by(Nta) %>% mutate(ngene=n()) %>% ungroup()
-    nsample<-oridata %>% group_by(Locus.CIA) %>% sample_n(1) %>% dplyr::select(Locus.CIA,n)
-    totdata<-totdata %>% left_join(nsample,by="Locus.CIA")
-    colnames(totdata)[5]<-"TAsample"
-    nsample<-oridata %>% group_by(Locus.CIA) %>% sample_n(1) %>% dplyr::select(Locus.CIA,n)
-    tot<-totdata %>% left_join(nsample,by="Locus.CIA")
-    a=median(tot$Nta)
+    #For each gene, pick a random site
+    nsample<-oridata %>% group_by(Chr, Locus.CIA) %>% sample_n(1) %>% dplyr::select(Chr, Locus.CIA,n) %>% ungroup()
+    totdata<-totdata %>% left_join(nsample,by=c("Chr", "Locus.CIA"))
+    colnames(totdata)[6]<-"TAsample"
+    #sample again
+    nsample<-oridata %>% group_by(Chr, Locus.CIA) %>% sample_n(1) %>% dplyr::select(Chr, Locus.CIA,n) %>% ungroup()
+    tot<-totdata %>% left_join(nsample,by=c("Chr", "Locus.CIA"))
+    a=median(tot$Nta) #median number of TA sites per gene across the whole genome
 
     #calculate parameters
-
     ntalist<-rep(a,b)
     print(ntalist)
     ntareslist<-lapply(ntalist,function(y){
