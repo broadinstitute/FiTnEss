@@ -5,7 +5,10 @@ _FiTnEss_ is a package to analyze transposon insertion sequencing (Tn-Seq) data 
 
 Manuscript (preprint on bioRxiv): [Defining the core essential genome of Pseudomonas aeruginosa](https://www.biorxiv.org/content/early/2019/01/12/396689)
 
-Modified on 8/7/2025 to allow for genomes with multiple contigs, and updated to python3.
+Modified on 8/7/2025
+* allow for genomes with multiple contigs
+* allow user to input gff tag to label genes
+* updated to python3.
 
 ### Quick start
 
