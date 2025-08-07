@@ -1,5 +1,6 @@
-# to execute this file in terminal, type: sh execute_TAsite_preprocessing.sh
+# to execute this file in terminal, 
 # modify input paths for data and scripts
+# and type: sh execute_TAsite_preprocessing.sh
 
 # required files in scripts folder:
 # 1. TAFinder.py
@@ -10,22 +11,16 @@
 # 6. make_gene_list.py
 
 
-#Input variables, 7/22/25
-#data_path='/idi/hunglabusers/jbagnall/klebs_tnseq/1_UNIX_genome-preprocessing_mapping/' #location of genome_info and TAsite_info folders
-#script_path='/home/unix/jbagnall/git/FiTnEss_JB/1_UNIX_genome-preprocessing_mapping/scripts/' #location of scripts
-#temp_path='/broad/hptmp/jbagnall/temp/' #where to output temp files
-#fna_file='GCF_000694555.1_Kleb_pneu_MGH_66_V1_genomic.fna'
-#gff_file='GCF_000694555.1_genomic.gff' #GFF file with gene annotations, used to create gene list file
-#gene_name_tag='locus_tag' #tag in GFF file to use for gene names, usually 'locus' or 'locus_tag' or 'ID''
-
-#test from brad's data
-data_path='/idi/hunglabusers/jbagnall/klebs_tnseq/test/Test_set_P_aeruginosa/' #location of genome_info and TAsite_info folders
-script_path='/home/unix/jbagnall/git/FiTnEss_JB/1_UNIX_genome-preprocessing_mapping/scripts/' #location of scripts
-temp_path='/broad/hptmp/jbagnall/temp/' #where to output temp files
-fna_file='GCA_000014625.1_ASM1462v1_genomic.fna'
+#######################Input variables--modify these#################################################
+data_path='/path/to/data/' #location of genome_info and TAsite_info folders
+script_path='/path/to/scripts/' #location of scripts
+temp_path='/path/to/store/temporary/files/' #where to output temp files
+fna_file='GCA_000014625.1_ASM1462v1_genomic.fna' #name of fna file of genome sequence
 gff_file='GCA_000014625.1.gff' #GFF file with gene annotations, used to create gene list file
 gene_name_tag='locus_tag' #tag in GFF file to use for gene names, usually 'locus' or 'locus_tag' or 'ID''
 
+
+#######################Do not modify below############################################################
 #Make sure necessary subdirectories exist
 mkdir -p "${temp_path}"
 mkdir -p "${data_path}genome_info" "${data_path}TAsite_info"

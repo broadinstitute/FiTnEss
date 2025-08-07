@@ -1,21 +1,16 @@
-#Input variables, 7/22/25
-data_path='/idi/hunglabusers/jbagnall/klebs_tnseq/1_UNIX_genome-preprocessing_mapping/' #location of genome_info and TAsite_info folders
-script_path='/home/unix/jbagnall/git/FiTnEss_JB/1_UNIX_genome-preprocessing_mapping/scripts/' #location of scripts
-temp_path='/broad/hptmp/jbagnall/temp/' #where to output temp files
-fna_file='GCF_000694555.1_Kleb_pneu_MGH_66_V1_genomic.fna'
-gff_file='GCF_000694555.1_genomic.gff' #GFF file with gene annotations, used to create gene list file
-fastq_file='MGH66_LBA.fastq' #fastq file with reads to map
-tally_output_name="MGH66_LBA_tally.txt" #output file name for tally results, usually has strain_media
+#Script to align reads and tally reads per TA site per gene
 
-#test with brad's data
-data_path='/idi/hunglabusers/jbagnall/klebs_tnseq/test/Test_set_P_aeruginosa/' #location of genome_info and TAsite_info folders
-script_path='/home/unix/jbagnall/git/FiTnEss_JB/1_UNIX_genome-preprocessing_mapping/scripts/' #location of scripts
-temp_path='/broad/hptmp/jbagnall/temp/' #where to output temp files
+###################Input variables--modify these######################################################################
+data_path='/path/to/data/' #location of genome_info and TAsite_info folders
+script_path='/path/to/scripts/' #location of scripts
+temp_path='/path/to/store/temporary/files/' #where to output temp files
 fna_file='GCA_000014625.1_ASM1462v1_genomic.fna'
 gff_file='GCA_000014625.1.gff' #GFF file with gene annotations, used to create gene list file
 fastq_file='M91_PA14.fastq.gz' #fastq file with reads to map
 tally_output_name="PA14_M9_rep1_test_tally.txt" #output file name for tally results, usually has strain_media
 
+
+#############No need to modify below unless changing number of allowed mismatches######################################
 #building Bowtie genome
 base_fna_name=$(basename "${fna_file}" .fna) #base name of fasta file, used to create reverse complement fasta file name
 index_file="${base_fna_name}_index"
@@ -25,7 +20,7 @@ bowtie-build "${data_path}genome_info/${fna_file}" "${data_path}genome_info/${in
 #mapping to genome, exact match
 bowtie -v 0 -q -m 1 -S "${data_path}genome_info/${index_file}" "${data_path}sample_data/${fastq_file}" "${data_path}sample_data/${base_fna_name}.sam"
 #Allowing 1 mismatch
-bowtie -v 1 -q -m 1 -S "${data_path}genome_info/${index_file}" "${data_path}sample_data/${fastq_file}" "${data_path}sample_data/${base_fna_name}_1mm.sam"
+#bowtie -v 1 -q -m 1 -S "${data_path}genome_info/${index_file}" "${data_path}sample_data/${fastq_file}" "${data_path}sample_data/${base_fna_name}.sam"
 
 #tallying"${script_path}reverse_complement_genome.py"
 base_gff_name=$(basename "${gff_file}" .gff) #base name of GFF file, used to create gene list file name

@@ -1,6 +1,0 @@
-This folder requires:
-
-your_sample.sam
-
-If mapping locally, it also requires:
-your_sample.fastq
