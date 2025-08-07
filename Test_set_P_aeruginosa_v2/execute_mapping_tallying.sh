@@ -1,13 +1,16 @@
-#Input variables, 7/22/25
-#test with brad's data
-data_path='/idi/hunglabusers/jbagnall/klebs_tnseq/test/Test_set_P_aeruginosa_v2/' #location of genome_info and TAsite_info folders
-script_path='/home/unix/jbagnall/git/FiTnEss_JB/1_UNIX_genome-preprocessing_mapping/scripts/' #location of scripts
-temp_path='/broad/hptmp/jbagnall/temp/250807/' #where to output temp files
+#Script to align reads and tally reads per TA site per gene
+
+###################Input variables--modify these######################################################################
+#test manuscript data
+data_path='~/test/Test_set_P_aeruginosa_v2/' #location of genome_info and TAsite_info folders
+script_path='~/FiTnEss_JB/1_UNIX_genome-preprocessing_mapping/scripts/' #location of scripts
+temp_path='~/temp/250807/' #where to output temp files
 fna_file='GCA_000014625.1_ASM1462v1_genomic.fna'
 gff_file='GCA_000014625.1.gff' #GFF file with gene annotations, used to create gene list file
 fastq_file='M91_PA14.fastq.gz' #fastq file with reads to map
 tally_output_name="PA14_M9_rep1_tally.txt" #output file name for tally results, usually has strain_media
 
+#############No need to modify below unless changing number of allowed mismatches######################################
 #building Bowtie genome
 base_fna_name=$(basename "${fna_file}" .fna) #base name of fasta file, used to create reverse complement fasta file name
 index_file="${base_fna_name}_index"

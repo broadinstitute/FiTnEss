@@ -11,15 +11,16 @@
 
 conda activate py3.7.11
 
-#Input variables, 7/22/25
-#test from brad's data
-data_path='/idi/hunglabusers/jbagnall/klebs_tnseq/test/Test_set_P_aeruginosa_v2/' #location of genome_info and TAsite_info folders
-script_path='/home/unix/jbagnall/git/FiTnEss_JB/1_UNIX_genome-preprocessing_mapping/scripts/' #location of scripts
-temp_path='/broad/hptmp/jbagnall/temp/250807/' #where to output temp files
+#######################Input variables--modify these#################################################
+#test manuscript data
+data_path='~/test/Test_set_P_aeruginosa_v2/' #location of genome_info and TAsite_info folders
+script_path='~/FiTnEss_JB/1_UNIX_genome-preprocessing_mapping/scripts/' #location of scripts
+temp_path='~/temp/250807/' #where to output temp files
 fna_file='GCA_000014625.1_ASM1462v1_genomic.fna'
 gff_file='GCA_000014625.1.gff' #GFF file with gene annotations, used to create gene list file
 gene_name_tag='locus_tag' #tag in GFF file to use for gene names, usually 'locus' or 'locus_tag' or 'ID''
 
+#######################Do not modify below############################################################
 #Make sure necessary subdirectories exist
 mkdir -p "${temp_path}"
 mkdir -p "${data_path}genome_info" "${data_path}TAsite_info"
