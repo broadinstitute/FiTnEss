@@ -30,6 +30,8 @@ e.g. `"/your/folder/location/homologous_TA_sites.txt"`
 e.g. `"/your/folder/location/your_gff3_file.txt"`
 - **_save_location_**: path and name of where to save final results file: 
 e.g. `"/your/folder/location/results.xlsx"`
+- **_gff_name_tag_**: tag in GFF file that uniquely identifies each gene, usually "locus_tag": 
+e.g. `"locus_tag"`
 - **_repeat_time_**: how many times to run the pipeline in order to obtain best results: by default, we run 3 times.
 
 #### Step 1. install and load dependent packages
