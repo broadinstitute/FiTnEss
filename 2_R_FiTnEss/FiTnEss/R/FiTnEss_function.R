@@ -12,7 +12,7 @@ FiTnEss_Run<-function(strain,
                       gene_file,
                       save_location,
                       gff_name_tag, #tag to define gene name in gff file
-                      remove_multicopy_plasmid_names = NA, #add plasmid names matching the gff, to remove them
+                      remove_multicopy_plasmid_names = NA, #add plasmid names matching the gff to remove them
                       repeat_time=3){
 
   ## 1. Usable tally file preparation
