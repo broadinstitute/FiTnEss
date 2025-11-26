@@ -116,6 +116,9 @@ self_tallyprepfun<-function(strain, file_location, permissive_file, homologous_f
     tally.w$remove_plasmid = FALSE
     if(all(!is.na(remove_multicopy_plasmid_names))){
       tally.w = dplyr::mutate(tally.w, remove_plasmid = tolower(Chr) %in% tolower(remove_multicopy_plasmid_names))
+      if(all(tally.w$remove_plasmid==FALSE)){
+        print(paste0("Warning: no genes found in contigs ", paste(remove_multicopy_plasmid_names, collapse = ",")))
+      }
     }
 
     #e) process to list for downstream analysis
