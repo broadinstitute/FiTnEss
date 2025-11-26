@@ -12,19 +12,21 @@ FiTnEss_Run<-function(strain,
                       gene_file,
                       save_location,
                       gff_name_tag, #tag to define gene name in gff file
-                      repeat_time=3){ #pre-defined as using Nta=10, and replicate for 5 times for each replicate
+                      remove_multicopy_plasmid_names = NA, #add plasmid names matching the gff, to remove them
+                      repeat_time=3){
 
   ## 1. Usable tally file preparation
 
-  usable_tally_list<-self_tallyprepfun(strain,file_location,permissive_file,homologous_file,gene_file)
-
+  usable_tally_list<-self_tallyprepfun(strain = strain, file_location = file_location, permissive_file = permissive_file,
+                     homologous_file = homologous_file, gene_file = gene_file, gff_name_tag = gff_name_tag,
+                     remove_multicopy_plasmid_names = remove_multicopy_plasmid_names)
   ## 2. Calculating parameters
 
-  parameter_list<-calcparafun(strain,usable_tally_list,save_location,rep_time=repeat_time)
+  parameter_list<-calcparafun(strain = strain, usable_tally_list = usable_tally_list, save_location = save_location, rep_time=repeat_time)
 
   ## 3. Call Essentials
 
-  result_list<-callessfun(file_location,usable_tally_list,parameter_list)
+  result_list<-callessfun(file_location = file_location, usable_tally_list = usable_tally_list, parameter_list = parameter_list)
 
   ## 4. save final results
 
