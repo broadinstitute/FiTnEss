@@ -5,7 +5,7 @@ callessfun<-function(file_location,usable_tally_list,parameter_list){
 
   file_location_list<-unlist(strsplit(file_location,","))
   filtered_list<-lapply(usable_tally_list,function(x){
-    x=x %>% dplyr::filter(homo==FALSE,non_permissive==FALSE,coreTA==TRUE)
+    x=x %>% dplyr::filter(homo==FALSE, non_permissive==FALSE, coreTA==TRUE, remove_plasmid==FALSE)
   })
 
   ####################### Call Essentials #######################

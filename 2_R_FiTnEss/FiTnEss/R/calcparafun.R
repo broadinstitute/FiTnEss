@@ -27,7 +27,7 @@ calcparafun<-function(strain,usable_tally_list,save_location,rep_time){
   #1. prepare data
 
   filtered_list<-lapply(usable_tally_list,function(x){
-    x=x %>% dplyr::filter(homo==FALSE,non_permissive==FALSE,coreTA==TRUE)
+    x=x %>% dplyr::filter(homo==FALSE, non_permissive==FALSE, coreTA==TRUE, remove_plasmid==FALSE)
   })
 
   #2. compare replicates

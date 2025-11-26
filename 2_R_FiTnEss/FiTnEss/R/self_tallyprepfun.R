@@ -20,7 +20,7 @@ extract_tag <- function(attr_string, tag) {
 
 #1. usable tally file preparation
 
-self_tallyprepfun<-function(strain, file_location, permissive_file, homologous_file, gene_file, gff_name_tag = "locus_tag"){
+self_tallyprepfun<-function(strain, file_location, permissive_file, homologous_file, gene_file, gff_name_tag = "locus_tag", remove_multicopy_plasmid_names){
 
   #genefile<-read.delim(gene_file, header = FALSE, fill = TRUE, sep = '\t') #original script, not parsing gff correctly
   genefile <- read.table(gene_file, sep = "\t", header = FALSE, quote = "", comment.char = "#", fill = TRUE, stringsAsFactors = FALSE)
@@ -68,9 +68,9 @@ self_tallyprepfun<-function(strain, file_location, permissive_file, homologous_f
   # genelist$strain<-st
   genelist$strain = strain
   colnames(geneinfo)<-c("Chr", "type","strand","Locus.CIA")
-  genelist<-genelist %>% full_join(geneinfo,by=c("Chr", "Locus.CIA"))
-  genelist<-genelist %>% left_join(cluster2,by=c("Chr", "Locus.CIA","strain"))
-  genelist<-genelist %>% dplyr::select(Chr,Locus.CIA,strain,type,gene_start,gene_stop,strand,desc)
+  genelist<-genelist %>% dplyr::full_join(geneinfo,by=c("Chr", "Locus.CIA")) %>% dplyr::distinct()
+  genelist<-genelist %>% dplyr::left_join(cluster2,by=c("Chr", "Locus.CIA","strain"))
+  genelist<-genelist %>% dplyr::select(Chr,Locus.CIA,strain,type,gene_start,gene_stop,strand,desc) %>% dplyr::distinct()
 
   # if (strain=="UCBPP"){
   #   genelist$strain<-"UCBPP"
@@ -110,6 +110,16 @@ self_tallyprepfun<-function(strain, file_location, permissive_file, homologous_f
     tally.w <- denote_coreTA(tally.w, 50)
     ## denote TAs as TRUE it is not in the first and last 50bp of the gene
     table(tally.w$coreTA) #false is number of TA sites found near edges
+
+    #mark any in a plasmid or contig that should be removed
+    #initialize to false
+    tally.w$remove_plasmid = FALSE
+    if(all(!is.na(remove_multicopy_plasmid_names))){
+      tally.w = dplyr::mutate(tally.w, remove_plasmid = tolower(Chr) %in% tolower(remove_multicopy_plasmid_names))
+      if(all(tally.w$remove_plasmid==FALSE)){
+        print(paste0("Warning: no genes found in contigs ", paste(remove_multicopy_plasmid_names, collapse = ",")))
+      }
+    }
 
     #e) process to list for downstream analysis
     x=tally.w
