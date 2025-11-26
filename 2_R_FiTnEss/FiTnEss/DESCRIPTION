@@ -1,7 +1,7 @@
 Package: FiTnEss
 Type: Package
 Title: FiTnEss: Finding TnSeq Essential Genes
-Version: 0.2
+Version: 0.2.0
 Date: 2025-10-23
 Authors@R: person("Rui", "Yang", email = "ruiyang@broadinstitute.org", role = c("aut", "cre"))
 Description: With this package, we could process raw tally TnSeq tally files, and identify potential essential genes.
