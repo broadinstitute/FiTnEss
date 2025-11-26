@@ -5,13 +5,13 @@ _FiTnEss_ is a package to analyze transposon insertion sequencing (Tn-Seq) data 
 
 Manuscript (preprint on bioRxiv): [Defining the core essential genome of Pseudomonas aeruginosa](https://www.biorxiv.org/content/early/2019/01/12/396689)
 
-Modified on<br>
-11/26/2025:<br>
-* allow user to input names of contigs/plasmids that should be removed from analysis (after finding regions of homology and before fitting the distribution of reads). This may be useful when some plasmids are in high copy number, which would result in ambiguity concerning essentiality for those genes and potentially skew the count distribution.<br>
-8/7/2025:<br>
-* allow for genomes with multiple contigs
-* allow user to input gff tag to label genes
-* updated to python3
+Modified on 11/26/2025
+- Allow user to input names of contigs/plasmids that should be removed from analysis (after finding regions of homology and before fitting the distribution of reads). This may be useful when some plasmids are in high copy number, which would result in ambiguity concerning essentiality for those genes and potentially skew the count distribution.
+
+Modified on 8/7/2025
+- Allow for genomes with multiple contigs  
+- Allow user to input gff tag to label genes  
+- Updated to python3
 
 ### Quick start
 
